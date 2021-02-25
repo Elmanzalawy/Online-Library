@@ -35,7 +35,9 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
-        Book::create($this->validateRequest());
+        $book = Book::create($this->validateRequest());
+        return redirect($book->path());
+
     }
 
     /**
@@ -44,9 +46,10 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        //
+        return $book;
+        // return $book;
     }
 
     /**
@@ -67,9 +70,10 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $id)
+    public function update(Request $request, Book $book)
     {
-        $id->update($this->validateRequest());
+        $book->update($this->validateRequest());
+        return redirect($book->path());
     }
 
     /**
@@ -78,9 +82,10 @@ class BooksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect(url('/books'));
     }
 
     protected function validateRequest(){
